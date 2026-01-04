@@ -79,14 +79,14 @@ Docker
 
 Docker Compose
 
-▶️ Start all services
+▶️ Start All Services
 
-Run the following command from the project root:
+From the project root directory, run:
 
 docker compose up -d
 
 
-This will start:
+This will start the following services:
 
 PostgreSQL
 
@@ -96,13 +96,13 @@ Zookeeper
 
 Kafka
 
-Airflow (webserver + scheduler)
+Airflow (Webserver + Scheduler)
 
 Agent Router
 
-🔍 Check running containers
+🔍 Check Running Containers
 
-To verify that all services are running:
+To verify that all services are running correctly:
 
 docker compose ps
 
@@ -110,10 +110,10 @@ docker compose ps
 All containers should show Up status.
 
 ▶️ Trigger the Workflow
-1️⃣ Unpause the producer DAG
+1️⃣ Unpause the Producer DAG
 docker exec -it airflow-webserver airflow dags unpause kafka_producer_dag
 
-2️⃣ Trigger the DAG manually
+2️⃣ Trigger the DAG Manually
 docker exec -it airflow-webserver airflow dags trigger kafka_producer_dag
 
 
@@ -134,39 +134,39 @@ Listening on topic: ai_agent_input
 Received message: {"type":"test","content":"hello from terminal"}
 Sent processed message to ai_agent_output
 
-
-This confirms that:
+✅ What This Confirms
 
 Airflow successfully produced a Kafka message
 
-The Agent Router consumed it
+The Agent Router consumed the message
 
 The message was processed and forwarded
 
-✅ Result
+🔁 Final Result
 
-The full pipeline works end-to-end:
+The pipeline works end-to-end:
 
 Airflow → Kafka → Agent Router → Kafka → Airflow
+
 📁 Project Structure
 ai_agent_framework/
 │
-├── dags/                  # Airflow DAG definitions
-├── src/agents/            # Agent logic
-├── message_router.py      # Kafka agent router
-├── Dockerfile             # Agent Router image
-├── Dockerfile.airflow     # Airflow image
-├── docker-compose.yml     # Service orchestration
+├── dags/                 # Airflow DAG definitions
+├── src/agents/           # Agent logic
+├── message_router.py     # Kafka agent router
+├── Dockerfile            # Agent Router image
+├── Dockerfile.airflow    # Airflow image
+├── docker-compose.yml    # Service orchestration
 ├── requirements.txt
 └── README.md
 
-🧠 What I learned from this project
+🧠 What I Learned From This Project
 
 How event-driven systems work
 
 Integrating Airflow with Kafka
 
-Designing loosely coupled AI pipelines
+Designing loosely-coupled AI pipelines
 
 Containerizing distributed systems
 
@@ -181,9 +181,6 @@ Implement retry and failure handling
 Persist agent state
 
 Add monitoring and metrics
-
-Dynamic DAG creation
-
 👤 Author
 
 Bhavik Raman
