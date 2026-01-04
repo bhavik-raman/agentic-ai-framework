@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Airflow
+logs/
+airflow/logs/
+airflow/*.db
+
+# Docker
+*.log
+docker-compose.yml.broken
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
