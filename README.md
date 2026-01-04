@@ -70,23 +70,23 @@ Each component runs independently using Docker.
 
 ---
 
-▶️ How to Run the Project
-🔧 Requirements
+Requirements
 
-Make sure the following are installed on your system:
+Before running the project, ensure you have:
 
 Docker
 
 Docker Compose
 
-▶️ Start All Services
+Running the Project
+Start all services
 
-From the project root directory, run:
+From the project root:
 
 docker compose up -d
 
 
-This will start the following services:
+This will start:
 
 PostgreSQL
 
@@ -100,55 +100,49 @@ Airflow (Webserver + Scheduler)
 
 Agent Router
 
-🔍 Check Running Containers
-
-To verify that all services are running correctly:
-
+Verify running containers
 docker compose ps
 
 
-All containers should show Up status.
+All services should show Up.
 
-▶️ Trigger the Workflow
-1️⃣ Unpause the Producer DAG
+Triggering the Workflow
+Unpause the producer DAG
 docker exec -it airflow-webserver airflow dags unpause kafka_producer_dag
 
-2️⃣ Trigger the DAG Manually
+Trigger the DAG manually
 docker exec -it airflow-webserver airflow dags trigger kafka_producer_dag
 
 
 This sends a message from Airflow to Kafka.
 
-📤 Expected Output
+Expected Output
 
-When everything is working correctly, check the Agent Router logs:
+Check the Agent Router logs:
 
 docker logs -f agent-router
 
 
-You should see output similar to this:
+You should see output similar to:
 
 Agentic Router starting...
 Connected to Kafka at kafka:9092
 Listening on topic: ai_agent_input
-Received message: {"type":"test","content":"hello from terminal"}
+
+Received message:
+{"type":"test","content":"hello from terminal"}
+
 Sent processed message to ai_agent_output
 
-✅ What This Confirms
+What This Confirms
 
 Airflow successfully produced a Kafka message
 
 The Agent Router consumed the message
 
-The message was processed and forwarded
+The message was processed and forwarded correctly
 
-🔁 Final Result
-
-The pipeline works end-to-end:
-
-Airflow → Kafka → Agent Router → Kafka → Airflow
-
-📁 Project Structure
+Project Structure
 ai_agent_framework/
 │
 ├── dags/                 # Airflow DAG definitions
@@ -160,27 +154,29 @@ ai_agent_framework/
 ├── requirements.txt
 └── README.md
 
-🧠 What I Learned From This Project
+Key Learnings
 
-How event-driven systems work
+Event-driven system design
 
-Integrating Airflow with Kafka
+Integrating Apache Airflow with Kafka
 
-Designing loosely-coupled AI pipelines
+Building loosely-coupled agent pipelines
 
 Containerizing distributed systems
 
-Debugging real-world Docker & Kafka issues
+Debugging real-world Docker and Kafka issues
 
-🚀 Possible Improvements
+Possible Improvements
 
-Add multiple agent types
+Support multiple agent types
 
-Implement retry and failure handling
+Add retry and failure handling
 
 Persist agent state
 
 Add monitoring and metrics
+
+
 👤 Author
 
 Bhavik Raman
