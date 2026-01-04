@@ -70,38 +70,84 @@ Each component runs independently using Docker.
 
 ---
 
-## ▶️ How to run the project
+▶️ How to Run the Project
+🔧 Requirements
 
-### Requirements
-- Docker
-- Docker Compose
+Make sure the following are installed on your system:
 
-### Start everything
-``bash
+Docker
+
+Docker Compose
+
+▶️ Start all services
+
+Run the following command from the project root:
+
 docker compose up -d
-Check running containers
-bash
-Copy code
+
+
+This will start:
+
+PostgreSQL
+
+Redis
+
+Zookeeper
+
+Kafka
+
+Airflow (webserver + scheduler)
+
+Agent Router
+
+🔍 Check running containers
+
+To verify that all services are running:
+
 docker compose ps
-▶️ Trigger the workflow
-Unpause and trigger the producer DAG:
 
-bash
 
-Copy code
+All containers should show Up status.
+
+▶️ Trigger the Workflow
+1️⃣ Unpause the producer DAG
 docker exec -it airflow-webserver airflow dags unpause kafka_producer_dag
-docker exec -it airflow-webserver airflow dags trigger kafka_producer_dag
-📤 Expected Output
-When everything is working correctly, the Agent Router logs should show something like:
 
-text
-Copy code
+2️⃣ Trigger the DAG manually
+docker exec -it airflow-webserver airflow dags trigger kafka_producer_dag
+
+
+This sends a message from Airflow to Kafka.
+
+📤 Expected Output
+
+When everything is working correctly, check the Agent Router logs:
+
+docker logs -f agent-router
+
+
+You should see output similar to this:
+
 Agentic Router starting...
 Connected to Kafka at kafka:9092
 Listening on topic: ai_agent_input
 Received message: {"type":"test","content":"hello from terminal"}
 Sent processed message to ai_agent_output
 
+
+This confirms that:
+
+Airflow successfully produced a Kafka message
+
+The Agent Router consumed it
+
+The message was processed and forwarded
+
+✅ Result
+
+The full pipeline works end-to-end:
+
+Airflow → Kafka → Agent Router → Kafka → Airflow
 📁 Project Structure
 ai_agent_framework/
 │
